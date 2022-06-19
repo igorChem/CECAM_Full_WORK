@@ -42,57 +42,80 @@
 	\maketitle
 	\newpage
 	\begin{abstract}
-		Hybrid simulations are powerful computational chemistry tools to obtain structural and thermodynamics information about enzymatic catalysis reactions. In addition to such relevant applications, these calculations also provide the resolved electronic structure, which is require to estimate the electronic energy in the SCF process. Recently, our group is using such information to obtain several quantum chemical descriptors to profile the steering forces underlying biological processes.In our’s group recent main recent publications we show: how semiempirical Hamiltonian could be used to obtain the Fukui functions from polypeptides with modified descriptors, applying them to ligand-binding process; to profile enzymatic catalysis reaction coordinates; to study the main interactions on the active site of main protease SARS-COV-II, comparing with from the SARS-COV-I.	The main goal of this work is to present our software PRIMoRDiA, which is a new application written to deal efficiently with large outputs of quantum chemical programs and to calculate more than thirty global and local quantum chemical descriptors. The new version of the program, is planned to work directly with the electronic structure obtained with pDynamo software through EasyHybrid 3.0 interface, allowing such theoretical analysis on the fly for hybrid QC/MM simulations.
+		\textbf{DISCLAIMER: this work is associated with a poster presentation on CECAM  event: \textit{Present and Future of Hybrid Quantum Chemical and Molecular Mechanical Simulations}. Please, do not use for nothing than to have the full details of our work. This text follow a manuscript formatting, but the central goal is to complete the information of the poster, so writing errors and lack of references may occur. }
+		
+		
+		Hybrid simulations are powerful computational chemistry tools to obtain structural and thermodynamics information about enzymatic catalysis reactions. In addition to such relevant applications, these calculations also provide the resolved electronic structure, which is require to estimate the electronic energy in the SCF process. Recently, our group is using such information to obtain several quantum chemical descriptors to profile the steering forces underlying biological processes. In our’s group recent main  publications we presented results about: how semiempirical Hamiltonian could be used to obtain the Fukui functions from polypeptides with modified descriptors, applying them to ligand-binding process; to profile enzymatic catalysis reaction coordinates; to study the main interactions on the active site of main protease SARS-COV-II, comparing with from the SARS-COV-I.	The main goal of this work is to present our software PRIMoRDiA and its workflow with QC/MM hybrid software as the new pDynamo3 and its Graphical interface EasyHybrid3. PRIMoRDiA is an application  to deal efficiently with large outputs of quantum chemical programs and to calculate more than thirty global and local quantum chemical descriptors. 
 	\end{abstract}
+	\newpage
+	
 	\section{Introduction}
-		The developing of a computational protocols such the quantum chemical/quantum mechanical hybrid schemes, allowed the study of complex process that occurs in large biomolecular systems. This turned the Hybrid QC/MM methods the state of art and it comes to the energetic and structural studies of enzymatic catalysis. Although, in the great majority of those simulations the resolved electronic structure is trow away, i.e. the wave function information is not utilized even though the computational cost to obtain it  already was paid. 
+		The developing of a computational protocols such the quantum chemical/quantum mechanical hybrid schemes, allowed the study of complex process that occurs in large biomolecular systems. This turned the Hybrid QC/MM methods the state of art and it comes to the energetic and structural studies of enzymatic catalysis. Although, in the great majority of those simulations the resolved electronic structure is trow away, i.e. the wave function information is not utilized even though the computational cost to obtain it already was paid. 
 		
 		PRIMoRDiA software is a new application released to the community prepared to deal with large output files from quantum chemical packages, transforming the electronic structure information in quantum chemical descriptors, global and local, that describes the reactivity propensity and/or provide some electronic properties that can be to used to train correlation models. 
 		
 		%about the applications of PRIMoRDiA with QC/MM
-		We already used PRIMoRDiA in some studies for profile and characterize reaction paths of enzymatic reactions, from trajectories generated with QC/MM simulations. 
+		We already used PRIMoRDiA in some studies for profile and characterize reaction paths of enzymatic reactions, from trajectories generated with QC/MM simulations, such as the energy profiling of three enzymatic reactions: \textit{Triosephosphate Isomerase}, \textit{Haloalkane Dehalogenase} and \textit{Adenosine Kinase}. As well the theoretical characterizations of the \textit{Shikimate Dehydrogenase}, depicting the roles of the active site amino-acids.
 		
-		%Other applucations of these electronic strucutre studies
+		Thus, we already show that reactivity descriptors, these theoretical quantities calculated with the resolved electronic structure, can aid us to understand the chemistry of such complex reaction.
 		
-		%The goal of the study
+		In the present work, we chosen to analysis the reactivity from a set of sampled structures from QC/MM simulations of the complex between the Ricin Toxic Chain A (RTA) enzyme complex with a fragment of its natural subtract, that is a motive of the ribossome RNA. This system is very interesting to study for some reasons: the inhibition of this enzyme turns eliminate the risks associated with working the castor plant oil, which have several industrial and green chemistry applications; and secondly, there are two proposed mechanism of the cleavage catalysis, each one involving the needing to scan at least two reaction coordinates simultaneously. 
 		
-		%Description of the RTA system	
+		We show in \autoref{fig:mechanism} the two possible mechanisms, the first being the proton transference to the arginine to the adenine nitrogen, the cleavage of the ribose bond followed by an nucleophilic attack of the water oxygen in the ribose carbon and the proton abstraction of this water by the same arginine, restoring its protonation state. 
+		
+		\begin{figure}[H]
+			\includegraphics[width=5in]{rta_mechanism}
+			\caption{Proposed mechanisms for the cleavage of a ribossome RNA motive catalyzed by the RTA. A) Proton transference to the arginine to the adenine nitrogen, the cleavage of the ribose bond followed by an nucleophilic attack of the water oxygen in the ribose carbon and the proton abstraction of this water by the same arginine, restoring its protonation state. B) Same arginine from before, followed by the catalytic glutamic acid activation of the water before the nucleophilic attack of the ribose break bond. }
+			\label{fig:mechanism}			
+		\end{figure}
+		
+		The second mechanism considers the action of an glutamic acid residue, activating the water before the nucleophilic attack, keeping the same role for the arginine but without restoring its protonation state. 
+		
+		In a relaxed survey of the reactions coordinates we could consider a range of its combinations. Generally, we could use the initial distances of between the atoms to have a good guess of the most probable reaction coordinates to make the scan. Thus, this includes have a reliable guess of the starting coordinates. 
+		
+		In fact, for the complex we are dealing with, the natural substrate it the ribossome itself, which is impractical to include in any time of simulations where we want to apply QC/MM hybrid potential to capture bond breaking and formation. Thus, our complex has as substrate an artificial analogous molecule, imitating the GAGA motive of the \textit{Sarcin-Ricin Loop} region, located in the portion 285 of the ribossomic RNA. Then, this makes more difficult to define how the chosen starting geometries are reliable.
+		
+		Thus, we will make a structural analysis based on the distance variation during the QC/MM molecular dynamics, and compare with structures sampled from the statistical analysis of the reactivity descriptors obtained for each saved frame. 
 	
-	\begin{figure}[H]
-		\includegraphics[width=5in]{rta_mechanism}
-		\caption{ }
-		\label{fig:mechanism}			
-	\end{figure}
-
-
+	\newpage
 	\section{Methods}
 	
-	the system was prepared for QC/MM simulations with the following steps: i) parametrization of the cofactor NADP; ii) parametrization of the substrate; ii) solvation of the complex, ions addition to neutralize the total charge and protein parameters generation with AMBER force field; iv) GROMACS energy minimization of the entire system. After these steps, the force field parameters and coordinates files were loaded in the pDynamo library, where the system were prepared, QC/MM atoms, and fixed atoms were defined and the further simulations were performed.
-	%put figure with the flow chart
-	
-	\begin{figure}[H]
-		\includegraphics[width=5in]{rta_mechanism}
-		\caption{ }
-		\label{fig:mechanism}			
-	\end{figure}
-	
-	\subsection{Structure Preparation and Parametrization}
-	
-	%pick the parametrization details from the larissa dissertation
-	
-	the library files for tleap were generated with parmchk2 from ambertools. The glucose-6-phosphate parameters were generated with am1-bcc charge scheme using antechamber program considering -2 of formal charge. We used the amberff99SB force filed for the protein atoms, tip3p model to build a solvation cubic box respecting the 12\AA\ between the surface of protein complex until the box end. Also, seven sodium ions were added to neutralize the total system charge. 
-	
-	We build the complex parameters and coordinates using tleap program, the parameters files were converted to GROMACS format using the Parmed library for Python 3, for energy minimization. We performed this minimization using steepest descent algorithm, periodic boundary conditions in all dimensions, 50000 maximum number of steps and 1000 kJ/mol/nm force tolerance and 0.01 of energy step.
-	
+		In this study, we performed QC/MM molecular dynamics sampling of the Ricin Toxic Chain A (RTA) enzyme complex with a fragment of its natural subtract, that is a motive of the Ribossome RNA. This was followed by the energy refinement in MOPAC software to obtain the files with resolved electronic structure, using a larger QC region. We passed these files for PRIMoRDiA calculate the quantum chemical descriptors, and generate R scripts for statistical analysis and Pymol Scripts for visualization of the descriptors. 
+		
+		We performed an distance analysis between the two possible reaction coordinates, using the EasyHybrid3 core scripts, where we used to find the most probable distances in the QC/MM molecular dynamics runs.
+		
+		We take the values of the descriptors summed over their belonging atoms, and used to make a Principal Component Analysis, to find the most relevant quantum chemical descriptors to analysis the reactivity of the system over the sampled structures. Then we take the main descriptors to sample the frame with the most probable value in they. We summarized \autoref{fig:methods} all these computational protocols and analysis that was used in this work. 
+		
+		\begin{figure}[H]
+			\includegraphics[width=5in]{methods}
+			\caption{Flowchart depicting the pupeline and compuational protocols used in this work.}
+			\label{fig:methods}			
+		\end{figure}
+		
+		To do this, we picked the parameters/topology and prepared coordinates built in a master dissertation work within our group. The nucleotide parametrization was done using the CHARMM General Force Field (CGenFF), in the webserver: \url{cgenff.umaryland.edu}. This system was built using the VDM tool QwikMD, using the CHARMM protein force field for the RTA amino-acids. The solvation box was built with same tool cited above, with the TIP3P model and a size of 20\AA\ from the most distances coordinates of the complex until to end of the box.  We neutralized the net charge of the system  with Na+ ions plus more Na+ and Cl- to mimic a NaCl concentration of 0.15mol/L. 	
+		
 	\subsection{QC/MM Simulations Set Up}
 	
-	%detaisl about the QC/MM region picking
 	
-	%figure with the QC regionsm first and expanded  
+		The coordinates and the force field parameters were loaded and treated by the library classes and functions of pDynamo\cite{field2008pdynamo} and EasyHybrid\cite{bachega2013gtkdynamo}. Firstly, the box was set to a sphere, taking the nitrogen of the catalytic arginine (NH1) as the center and including all atoms of the residues with up to 30 \AA\ of distance. The atoms of the residues within 22 \AA\ from the center was considered as mobile atoms and beyond as fixed, i.e., they only interact with the other atoms but without to get their coordinates updated. This avoids unnecessary gradient calculations without losing the effect of this outer layer. The distances were chosen to consider all substrate atoms  present in the other biding pocket, as well to provide a minimum water molecules layer. After that, a geometry optimization was performed using pDynamo conjugated gradient minimizer with a 0.1 kJ.mol$^{-1}.$\AA $^{-1}$ for root mean square tolerance. 
 	
-	The subsequent coordinates and the force field parameters were loaded and treated by the library classes and functions of pDynamo\cite{field2008pdynamo} and EasyHybrid\cite{bachega2013gtkdynamo}. Firstly, the box was set to a sphere, taking the hydride (H1) as the center and including all atoms of the residues with up to 30 \AA\ of distance. The atoms of the residues within 22 \AA\ from the center was considered as mobile atoms and beyond as fixed, i.e., they only interact with the other atoms but without to get their coordinates updated. This avoids unnecessary gradient calculations without losing the effect of this outer layer. The distances were chosen to consider the NADP molecule present in the other biding pocket, as well to provide a minimum water molecules layer. After that, a geometry optimization was performed using pDynamo conjugated gradient minimizer with a 0.1 kJ.mol$^{-1}.$\AA $^{-1}$ for root mean square tolerance. 
+		The most critical definition is the atoms that will be treated with the quantum chemistry potential. We included only the most important moieties to the proposed catalysis mechanism for the molecular dynamics runs, which includes: the side chain of catalytic residues arginine and glutamic acid, the water molecule near the substrate, and the ribose and adenine atoms of the second nucleotide of the pseudo ligand. 
+		
+		In the \autoref{fig:qcmmsystem}, the quantum region for the molecular dynamics is show in green (carbons only) sticks, the line representation is the MM free atoms, and in gray are represented the fixed atoms.  
 	
-	The most critical definition is the atoms that will be treated with the quantum chemistry potential. An unnecessary inclusions of atoms, in respect to the description of the reactions, could lead to unpractical simulations times for energy calculations employing DFT functionals or further free energy evaluations. Thus, we included only the most important moieties to the proposed catalysis mechanism, which includes: the nicotimide ring atoms from NADP; all glucose-6-phosphate atoms; the imidazole ring atoms of the catalytic histidine-337 and the near histidine-175; amine group of the lysine-145 and the carbon bind with the nitrogen, which is a residue very near the oxygen O1 of the substrate; and finally the carboxylic oxygens and carbon of the aspartate-174, that could activate the HIS237. The pruned system and division set up is shown in the \autoref{fig:1}.
+		\begin{figure}[H]
+		\includegraphics[width=4in]{qcmm_sys}
+		\caption{Divisions of the hybrid system for the molecular dynamics simulations. Quantum region: carbon green and sticks; molecular mechanis mobile atoms: carbon in purple and lines; molecular mechanics fixed atoms all in gray.}
+		\label{fig:qcmmsystem}			
+		\end{figure}
+	
+		After the molecular dynamics sampling, we used the Easyhybrid core scripts to generate the Mopac inputs for energy refinement considering a larger QC/MM regions, which includes some side chains of the residues around the attack site, which is represented in \autoref{fig:qcmmsystem_larger}. 
+		 
+		\begin{figure}[H]
+		\includegraphics[width=4in]{qcmm_sys_larger}
+		\caption{Divisions of the hybrid system for the molecular dynamics simulations. Quantum region: carbon green and sticks; molecular mechanis mobile atoms: carbon in purple and lines; molecular mechanics fixed atoms all in gray.   }
+		\label{fig:qcmmsystem_larger}			
+		\end{figure}
 	
 	\subsection{Reactivity Descriptors}
 
@@ -106,9 +129,9 @@
 	
 	\subsection{Structural and Reactivity Analysis}
 	
-	\section{Conclusions}
+	\section{Final Considerations and Perpectives}
 	
-	
+	The upcoming new version of the program, is planned to work directly with the electronic structure obtained with pDynamo software through EasyHybrid 3.0 interface, allowing such theoretical analysis on the fly for hybrid QC/MM simulations.
 	
 \bibliography{refs}
 	
