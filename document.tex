@@ -41,13 +41,16 @@
 \begin{document}
 	\maketitle
 	\newpage
-	\begin{abstract}
-		\textbf{DISCLAIMER: this work is associated with a poster presentation on CECAM  event: \textit{Present and Future of Hybrid Quantum Chemical and Molecular Mechanical Simulations}. Please, do not use for nothing than to have the full details of our work. This text follow a manuscript formatting, but the central goal is to complete the information of the poster, so writing errors and lack of references may occur. }
-		
+	\begin{abstract}		
 		
 		Hybrid simulations are powerful computational chemistry tools to obtain structural and thermodynamics information about enzymatic catalysis reactions. In addition to such relevant applications, these calculations also provide the resolved electronic structure, which is require to estimate the electronic energy in the SCF process. Recently, our group is using such information to obtain several quantum chemical descriptors to profile the steering forces underlying biological processes. In our’s group recent main  publications we presented results about: how semiempirical Hamiltonian could be used to obtain the Fukui functions from polypeptides with modified descriptors, applying them to ligand-binding process; to profile enzymatic catalysis reaction coordinates; to study the main interactions on the active site of main protease SARS-COV-II, comparing with from the SARS-COV-I.	The main goal of this work is to present our software PRIMoRDiA and its workflow with QC/MM hybrid software as the new pDynamo3 and its Graphical interface EasyHybrid3. PRIMoRDiA is an application  to deal efficiently with large outputs of quantum chemical programs and to calculate more than thirty global and local quantum chemical descriptors. 
 	\end{abstract}
 	\newpage
+	
+	\textbf{DISCLAIMER: this work is associated with a poster presentation on CECAM  event: \textit{Present and Future of Hybrid Quantum Chemical and Molecular Mechanical Simulations}. Please, do not use for nothing than to have the full details of our work. This text follow a manuscript formatting, but the central goal is to complete the information of the poster, so writing errors and lack of references may occur.} 
+	
+	\textbf{Also, pDynamo3 was used under the permission of professor Martin Field, the software new version is under development. EasyHybrid3 has no official stable version as well, but will be soon launched.}
+	
 	
 	\section{Introduction}
 		The developing of a computational protocols such the quantum chemical/quantum mechanical hybrid schemes, allowed the study of complex process that occurs in large biomolecular systems. This turned the Hybrid QC/MM methods the state of art and it comes to the energetic and structural studies of enzymatic catalysis. Although, in the great majority of those simulations the resolved electronic structure is trow away, i.e. the wave function information is not utilized even though the computational cost to obtain it already was paid. 
@@ -71,7 +74,7 @@
 		
 		The second mechanism considers the action of an glutamic acid residue, activating the water before the nucleophilic attack, keeping the same role for the arginine but without restoring its protonation state. 
 		
-		In a relaxed survey of the reactions coordinates we could consider a range of its combinations. Generally, we could use the initial distances of between the atoms to have a good guess of the most probable reaction coordinates to make the scan. Thus, this includes have a reliable guess of the starting coordinates. 
+		In a relaxed survey of the reactions coordinates we could consider a range of its combinations. Generally, we could use the initial distances of between the atoms to have a good guess of the most probable reaction coordinates to make the scan. Thus, this includes to have a reliable guess of the starting coordinates. 
 		
 		In fact, for the complex we are dealing with, the natural substrate it the ribossome itself, which is impractical to include in any time of simulations where we want to apply QC/MM hybrid potential to capture bond breaking and formation. Thus, our complex has as substrate an artificial analogous molecule, imitating the GAGA motive of the \textit{Sarcin-Ricin Loop} region, located in the portion 285 of the ribossomic RNA. Then, this makes more difficult to define how the chosen starting geometries are reliable.
 		
@@ -92,16 +95,16 @@
 			\label{fig:methods}			
 		\end{figure}
 		
-		To do this, we picked the parameters/topology and prepared coordinates built in a master dissertation work within our group. The nucleotide parametrization was done using the CHARMM General Force Field (CGenFF), in the webserver: \url{cgenff.umaryland.edu}. This system was built using the VDM tool QwikMD, using the CHARMM protein force field for the RTA amino-acids. The solvation box was built with same tool cited above, with the TIP3P model and a size of 20\AA\ from the most distances coordinates of the complex until to end of the box.  We neutralized the net charge of the system  with Na+ ions plus more Na+ and Cl- to mimic a NaCl concentration of 0.15mol/L. 	
+		To do this, we picked the parameters/topology and prepared coordinates built in a master dissertation work within our group. The nucleotide parametrization was done using the CHARMM General Force Field (CGenFF), in the web-server: \url{cgenff.umaryland.edu}. This system was built using the VDM tool QwikMD, using the CHARMM protein force field for the RTA amino-acids. The solvation box was built with same tool cited above, with the TIP3P model and a size of 20\AA\ from the most distances coordinates of the complex until to end of the box.  We neutralized the net charge of the system  with Na+ ions plus more Na+ and Cl- to mimic a NaCl concentration of 0.15mol/L. 	
 		
 	\subsection{QC/MM Simulations Set Up}
 	
 	
-		The coordinates and the force field parameters were loaded and treated by the library classes and functions of pDynamo\cite{field2008pdynamo} and EasyHybrid\cite{bachega2013gtkdynamo}. Firstly, the box was set to a sphere, taking the nitrogen of the catalytic arginine (NH1) as the center and including all atoms of the residues with up to 30 \AA\ of distance. The atoms of the residues within 22 \AA\ from the center was considered as mobile atoms and beyond as fixed, i.e., they only interact with the other atoms but without to get their coordinates updated. This avoids unnecessary gradient calculations without losing the effect of this outer layer. The distances were chosen to consider all substrate atoms  present in the other biding pocket, as well to provide a minimum water molecules layer. After that, a geometry optimization was performed using pDynamo conjugated gradient minimizer with a 0.1 kJ.mol$^{-1}.$\AA $^{-1}$ for root mean square tolerance. 
+		The coordinates and the force field parameters were loaded and treated by the library classes and functions of pDynamo\cite{field2008pdynamo} and EasyHybrid\cite{bachega2013gtkdynamo}. Firstly, the box was set to a sphere, taking the nitrogen of the catalytic arginine (NH1) as the center and including all atoms of the residues with up to 30 \AA\ of distance. The atoms of the residues within 22 \AA\ from the center was considered as mobile atoms and beyond as fixed, i.e., they only interact with the other atoms but without to get their coordinates updated. The distances were chosen to consider all substrate atoms  present in the other biding pocket, as well to provide a minimum water molecules layer. After that, a geometry optimization was performed using pDynamo conjugated gradient minimizer with a 0.1 kJ.mol$^{-1}.$\AA $^{-1}$ for root mean square tolerance. 
 	
 		The most critical definition is the atoms that will be treated with the quantum chemistry potential. We included only the most important moieties to the proposed catalysis mechanism for the molecular dynamics runs, which includes: the side chain of catalytic residues arginine and glutamic acid, the water molecule near the substrate, and the ribose and adenine atoms of the second nucleotide of the pseudo ligand. 
 		
-		In the \autoref{fig:qcmmsystem}, the quantum region for the molecular dynamics is show in green (carbons only) sticks, the line representation is the MM free atoms, and in gray are represented the fixed atoms.  
+		In the \autoref{fig:qcmmsystem}, the quantum region for the molecular dynamics is show in green (carbons only) sticks, the line representation is the MM free atoms, and in gray are represented the fixed atoms. All MD simulations were done using Leap Frog integrator implemented in pDynamo3, with a 0.001ps integration step, at 300.15K. For a equilibration step, we employ 20000 steps (20ps) and to sample the properties 100000 steps (100ps), saving frame coordinates for each 1ps.	We replicate these runs using the the Hamiltonians present in the software with parameters for the atoms in the considered system: AM1, AM1dPhot, RM1, PM3, pddgPM3 and PM6.   
 	
 		\begin{figure}[H]
 		\includegraphics[width=4in]{qcmm_sys}
@@ -109,19 +112,102 @@
 		\label{fig:qcmmsystem}			
 		\end{figure}
 	
-		After the molecular dynamics sampling, we used the Easyhybrid core scripts to generate the Mopac inputs for energy refinement considering a larger QC/MM regions, which includes some side chains of the residues around the attack site, which is represented in \autoref{fig:qcmmsystem_larger}. 
+		After the molecular dynamics sampling, we used the Easyhybrid core scripts to generate the Mopac inputs for energy refinement considering a larger QC/MM regions, which includes some side chains of the residues around the attack site, which is represented in \autoref{fig:qcmmsystem_larger}. We done the refinement for the coordinates obtained with the AM1/MM hybrid potential MD, that showed to be the most consistent in the analysis. For these 100 sample structures, we performed the energy refinement for all base Hamiltonians present in mopac: AM1, RM1, PM3, PM6 and PM7.  
 		 
 		\begin{figure}[H]
 		\includegraphics[width=4in]{qcmm_sys_larger}
-		\caption{Divisions of the hybrid system for the molecular dynamics simulations. Quantum region: carbon green and sticks; molecular mechanis mobile atoms: carbon in purple and lines; molecular mechanics fixed atoms all in gray.   }
+		\caption{Divisions of the hybrid system for the molecular dynamics simulations. Quantum region: carbon green and sticks; molecular mechanis mobile atoms: carbon in purple and lines; molecular mechanics fixed atoms all in gray.}
 		\label{fig:qcmmsystem_larger}			
 		\end{figure}
 	
 	\subsection{Reactivity Descriptors}
+	
+	The resultant electronic structure files were provided to PRIMoRDIA software\cite{grillo2020primordia}. PRIMoRDiA is built over a specialized code for calculations of electronic properties for macromolecules, implementing several global and local descriptors. We focused on the local reactivity descriptors due to the nature of the study. The first to consider are the Fukui functions, that rises from the derivative of the electron density in respect of the number of electrons ( \autoref{eq.1} )\cite{yang1984electron}. 
+	
+	\begin{equation}
+	f(r) = \left(\frac{\partial \rho(r)}{\partial N} \right)_\nu
+	\label{eq.1}
+	\end{equation}
+	
+	Due to the discontinuity of in the number of electrons this derivative is taken from different limits giving the origin to local functions that describe the susceptibility of the system to be attacked by a electrophile or a nucleophile. This functions can be calculated from the molecular orbitals HOMO ( \autoref{eq.2} ) and LUMO (\autoref{eq.3} ), by the approximation of frozen orbitals, respectively named as electrophilicity and nucleophilicity in PRIMoRDiA. The descriptors are calculated for each atom $k$ and thus summed over by their belonging amino-acid residue. 
+	
+	\begin{equation}
+	f^{-}(k) = |\psi^{HOMO}(k)|^2 =  \sum_{\nu \in k}^{AO} \Bigg \{ |C_{\nu HOMO}|^{2} + \sum_{\mu \notin \nu }^{AO} |C_{\nu HOMO} C_{\mu HOMO}|S_{\mu \nu} \Bigg \}
+	\label{eq.2}
+	\end{equation}
+	
+	\begin{equation}
+	f^{+}(k) = |\psi^{LUMO}(k)|^2 = \sum_{\nu \in k}^{AO} \Bigg \{ |C_{\nu LUMO}|^{2} + \sum_{\mu \notin \nu }^{AO} |C_{\nu LUMO} C_{\mu LUMO}|S_{\mu \nu} \Bigg \}
+	\label{eq.3}
+	\end{equation}
+	
+	This functions can be averaged ( \autoref{eq.4} ) or subtracted ( \autoref{eq.5} ), giving origin to the radical and dual descriptor respectively, being the latter called netphilicity in the PRIMoRDiA implementation. The Fukui functions are the basis of  majority of the local functions used in the chemical reactivity theories. Although, for macromolecules, PRIMoRDiA implement modifications on the calculation electrophilicity and nucleophilicty through these functions, accounting the contribution of other molecular orbitals with similar energy, as the protein systems are highly degenerated and may present their reactivity distributes along several atoms. 
+	
+	\begin{equation}
+	f^{0}(k) =  \frac{f^{+}(k) + f^{-}(k)}{2}
+	\label{eq.4}
+	\end{equation}
+	
+	\begin{equation}
+	\Delta f^{\pm}(k) = f^{+}(k) - f^{-}(k)
+	\label{eq.5}
+	\end{equation}
+	
+	For this study, we employed the Energy Weighted method found on PRIMoRDIA, using a 3eV of energy band to combine the molecular orbitals. These descriptors based on the frontier molecular orbitals are related to the soft-soft type of interactions that governs the chemical processes, characterized by high polarization of electron density, net charge transfer and covalent bonds formation\cite{klopman1968chemical}. To complement the description of the soft-soft interactions on the target systems, we calculated the local softness\cite{Roy1998} ( \autoref{eq.6} ) and local multiphilicity \autoref{eq.7}\cite{chamorro2009comparison}, that combines global descriptors with the Fukui functions, distributing polarizability and electron transfer information for the atoms of the system.  
+	
+	\begin{equation}
+	s^{\pm}(k) = Sf^{\pm}(k)
+	\label{eq.6}
+	\end{equation}
+	
+	\begin{equation}
+	\Delta \omega(k) = \omega f^{\pm}(k)
+	\label{eq.7}
+	\end{equation}
+	
+	The another type of interaction are the hard-hard ones, that are characterized by electrostatic forces, low-polarizability and non-covalent interactions\cite{klopman1968chemical}. In this case, we could use the local hardness from the CDFT as a appropriate descriptor. Although, this quantity present an ambiguous definition because the proposed derivative does not integrate to the global hardness, and there is no direct definition of local chemical potential. Besides that, this concept are used through some work equations, that are mathematical definitions that are based on the CDFT but seeking a practical way to depict hard-hard interactions without rigorous theoretical concerns. 
+	
+	These equations are recently being used in our's group works, and showed to be useful for biopolymers systems. In the PRIMoRDiA version used in this study there are four local hardness options implemented, as we used three to depict the charge-controlled interactions: i) The local chemical potential approximations\cite{gal2011}, defined in \autoref{eq.8}. ii) Approximation based on Electron-electron part of the molecular electrostatic potential\cite{berkowitz1985concept} \autoref{eq.9}. iii) Approximation based on the Fukui potential\cite{cardenas2011fukuipotential}\autoref{eq.10}.
+	
+	\begin{equation}
+	\eta(r) = \left (\rho(HOMO) - \frac{\rho(r)}{N} \right) \frac{\mu}{2N} + \frac{\rho(r)}{N}\eta
+	\label{eq.8}
+	\end{equation}
+	
+	\begin{equation}
+	\eta^{TFD} (r) =  \frac{1}{2N} \int \frac{\rho(r')}{|r-r'|}  dr'
+	\label{eq.9} 
+	\end{equation}
+	
+	\begin{equation}
+	\eta^f(r) = \int \frac{f^{-}(r')}{|r - r'|}
+	\label{eq.10}
+	\end{equation}
+	
+	There is a fourth usual working equation for local hardness that is implemented in the software, where the global quantity is spread in the molecular system by the values of the Fukui functions\cite{meneses2004proposal}. In addition to these local reactivity descriptors from CDFT formalism, we also explored the electronic density and the frontier molecular orbitals localization. This data were first calculated by each atom of the whole protein structures and then summed for each of their belonging amino-acid residues. Such type of representations of these data are called as residue condensed in the PRIMoRDiA software, that provide it automatically for its user.  
+	
 
 	\section{Results}
 	
 	\subsection{QC/MM Molecular Dynamics Sampling}
+	
+	\begin{figure}[H]
+		\includegraphics[width=4in]{}
+		\caption{}
+		\label{fig:}			
+	\end{figure}
+
+	\begin{figure}[H]
+		\includegraphics[width=4in]{}
+		\caption{}
+		\label{fig:}			
+	\end{figure}
+
+	\begin{figure}[H]
+		\includegraphics[width=4in]{}
+		\caption{}
+		\label{fig:}			
+	\end{figure}
 	
 	\subsection{Reactivity Descriptors}
 	
@@ -129,7 +215,7 @@
 	
 	\subsection{Structural and Reactivity Analysis}
 	
-	\section{Final Considerations and Perpectives}
+	\section{Final Considerations and Perspectives}
 	
 	The upcoming new version of the program, is planned to work directly with the electronic structure obtained with pDynamo software through EasyHybrid 3.0 interface, allowing such theoretical analysis on the fly for hybrid QC/MM simulations.
 	
