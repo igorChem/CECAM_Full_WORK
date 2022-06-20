@@ -45,13 +45,13 @@
 		
 		Hybrid simulations are powerful computational chemistry tools to obtain structural and thermodynamics information about enzymatic catalysis reactions. In addition to such relevant applications, these calculations also provide the resolved electronic structure, which is require to estimate the electronic energy in the SCF process. Recently, our group is using such information to obtain several quantum chemical descriptors to profile the steering forces underlying biological processes. In our’s group recent main  publications we presented results about: how semiempirical Hamiltonian could be used to obtain the Fukui functions from polypeptides with modified descriptors, applying them to ligand-binding process; to profile enzymatic catalysis reaction coordinates; to study the main interactions on the active site of main protease SARS-COV-II, comparing with from the SARS-COV-I.	The main goal of this work is to present our software PRIMoRDiA and its workflow with QC/MM hybrid software as the new pDynamo3 and its Graphical interface EasyHybrid3. PRIMoRDiA is an application  to deal efficiently with large outputs of quantum chemical programs and to calculate more than thirty global and local quantum chemical descriptors. 
 	\end{abstract}
-	\newpage
+	
 	
 	\textbf{DISCLAIMER: this work is associated with a poster presentation on CECAM  event: \textit{Present and Future of Hybrid Quantum Chemical and Molecular Mechanical Simulations}. Please, do not use for nothing than to have the full details of our work. This text follow a manuscript formatting, but the central goal is to complete the information of the poster, so writing errors and lack of references may occur.} 
 	
 	\textbf{Also, pDynamo3 was used under the permission of professor Martin Field, the software new version is under development. EasyHybrid3 has no official stable version as well, but will be soon launched.}
 	
-	
+	\newpage
 	\section{Introduction}
 		The developing of a computational protocols such the quantum chemical/quantum mechanical hybrid schemes, allowed the study of complex process that occurs in large biomolecular systems. This turned the Hybrid QC/MM methods the state of art and it comes to the energetic and structural studies of enzymatic catalysis. Although, in the great majority of those simulations the resolved electronic structure is trow away, i.e. the wave function information is not utilized even though the computational cost to obtain it already was paid. 
 		
@@ -80,7 +80,6 @@
 		
 		Thus, we will make a structural analysis based on the distance variation during the QC/MM molecular dynamics, and compare with structures sampled from the statistical analysis of the reactivity descriptors obtained for each saved frame. 
 	
-	\newpage
 	\section{Methods}
 	
 		In this study, we performed QC/MM molecular dynamics sampling of the Ricin Toxic Chain A (RTA) enzyme complex with a fragment of its natural subtract, that is a motive of the Ribossome RNA. This was followed by the energy refinement in MOPAC software to obtain the files with resolved electronic structure, using a larger QC region. We passed these files for PRIMoRDiA calculate the quantum chemical descriptors, and generate R scripts for statistical analysis and Pymol Scripts for visualization of the descriptors. 
@@ -108,15 +107,15 @@
 	
 		\begin{figure}[H]
 		\includegraphics[width=4in]{qcmm_sys}
-		\caption{Divisions of the hybrid system for the molecular dynamics simulations. Quantum region: carbon green and sticks; molecular mechanis mobile atoms: carbon in purple and lines; molecular mechanics fixed atoms all in gray.}
+		\caption{Divisions of the hybrid system for the molecular dynamics simulations. Quantum region: carbon green and sticks; molecular mechanics mobile atoms: carbon in purple and lines; molecular mechanics fixed atoms all in gray.}
 		\label{fig:qcmmsystem}			
 		\end{figure}
 	
-		After the molecular dynamics sampling, we used the Easyhybrid core scripts to generate the Mopac inputs for energy refinement considering a larger QC/MM regions, which includes some side chains of the residues around the attack site, which is represented in \autoref{fig:qcmmsystem_larger}. We done the refinement for the coordinates obtained with the AM1/MM hybrid potential MD, that showed to be the most consistent in the analysis. For these 100 sample structures, we performed the energy refinement for all base Hamiltonians present in mopac: AM1, RM1, PM3, PM6 and PM7.  
+		After the molecular dynamics sampling, we used the EasyHybrid3 core scripts to generate the MOPAC inputs for energy refinement considering a larger QC/MM regions, which includes some side chains of the residues around the attack site, which is represented in \autoref{fig:qcmmsystem_larger}. We done the refinement for the coordinates obtained with the AM1/MM hybrid potential MD, that showed to be the most consistent in the analysis. For these 100 sample structures, we performed the energy refinement for all base Hamiltonians present in MOPAC: AM1, RM1, PM3, PM6 and PM7.  
 		 
 		\begin{figure}[H]
 		\includegraphics[width=4in]{qcmm_sys_larger}
-		\caption{Divisions of the hybrid system for the molecular dynamics simulations. Quantum region: carbon green and sticks; molecular mechanis mobile atoms: carbon in purple and lines; molecular mechanics fixed atoms all in gray.}
+		\caption{Divisions of the hybrid system for the molecular dynamics simulations. Quantum region: carbon green and sticks; molecular mechanics mobile atoms: carbon in purple and lines; molecular mechanics fixed atoms all in gray.}
 		\label{fig:qcmmsystem_larger}			
 		\end{figure}
 	
@@ -141,7 +140,7 @@
 	\label{eq.3}
 	\end{equation}
 	
-	This functions can be averaged ( \autoref{eq.4} ) or subtracted ( \autoref{eq.5} ), giving origin to the radical and dual descriptor respectively, being the latter called netphilicity in the PRIMoRDiA implementation. The Fukui functions are the basis of  majority of the local functions used in the chemical reactivity theories. Although, for macromolecules, PRIMoRDiA implement modifications on the calculation electrophilicity and nucleophilicty through these functions, accounting the contribution of other molecular orbitals with similar energy, as the protein systems are highly degenerated and may present their reactivity distributes along several atoms. 
+	This functions can be averaged ( \autoref{eq.4} ) or subtracted ( \autoref{eq.5} ), giving origin to the radical and dual descriptor respectively, being the latter called netphilicity in the PRIMoRDiA implementation. The Fukui functions are the basis of  majority of the local functions used in the chemical reactivity theories. Although, for macromolecules, PRIMoRDiA implement modifications on the calculation electrophilicity and nucleophilicity through these functions, accounting the contribution of other molecular orbitals with similar energy, as the protein systems are highly degenerated and may present their reactivity distributes along several atoms. 
 	
 	\begin{equation}
 	f^{0}(k) =  \frac{f^{+}(k) + f^{-}(k)}{2}
@@ -153,7 +152,7 @@
 	\label{eq.5}
 	\end{equation}
 	
-	For this study, we employed the Energy Weighted method found on PRIMoRDIA, using a 3eV of energy band to combine the molecular orbitals. These descriptors based on the frontier molecular orbitals are related to the soft-soft type of interactions that governs the chemical processes, characterized by high polarization of electron density, net charge transfer and covalent bonds formation\cite{klopman1968chemical}. To complement the description of the soft-soft interactions on the target systems, we calculated the local softness\cite{Roy1998} ( \autoref{eq.6} ) and local multiphilicity \autoref{eq.7}\cite{chamorro2009comparison}, that combines global descriptors with the Fukui functions, distributing polarizability and electron transfer information for the atoms of the system.  
+	For this study, we employed the Energy Weighted method found on PRIMoRDiA, using a 3eV of energy band to combine the molecular orbitals. These descriptors based on the frontier molecular orbitals are related to the soft-soft type of interactions that governs the chemical processes, characterized by high polarization of electron density, net charge transfer and covalent bonds formation\cite{klopman1968chemical}. To complement the description of the soft-soft interactions on the target systems, we calculated the local softness\cite{Roy1998} ( \autoref{eq.6} ) and local multiphilicity \autoref{eq.7}\cite{chamorro2009comparison}, that combines global descriptors with the Fukui functions, distributing polarizability and electron transfer information for the atoms of the system.  
 	
 	\begin{equation}
 	s^{\pm}(k) = Sf^{\pm}(k)
@@ -167,7 +166,7 @@
 	
 	The another type of interaction are the hard-hard ones, that are characterized by electrostatic forces, low-polarizability and non-covalent interactions\cite{klopman1968chemical}. In this case, we could use the local hardness from the CDFT as a appropriate descriptor. Although, this quantity present an ambiguous definition because the proposed derivative does not integrate to the global hardness, and there is no direct definition of local chemical potential. Besides that, this concept are used through some work equations, that are mathematical definitions that are based on the CDFT but seeking a practical way to depict hard-hard interactions without rigorous theoretical concerns. 
 	
-	These equations are recently being used in our's group works, and showed to be useful for biopolymers systems. In the PRIMoRDiA version used in this study there are four local hardness options implemented, as we used three to depict the charge-controlled interactions: i) The local chemical potential approximations\cite{gal2011}, defined in \autoref{eq.8}. ii) Approximation based on Electron-electron part of the molecular electrostatic potential\cite{berkowitz1985concept} \autoref{eq.9}. iii) Approximation based on the Fukui potential\cite{cardenas2011fukuipotential}\autoref{eq.10}.
+	These equations are recently being used in ours group works, and showed to be useful for biopolymers systems. In the PRIMoRDiA version used in this study there are four local hardness options implemented, as we used three to depict the charge-controlled interactions: i) The local chemical potential approximations\cite{gal2011}, defined in \autoref{eq.8}. ii) Approximation based on Electron-electron part of the molecular electrostatic potential\cite{berkowitz1985concept} \autoref{eq.9}. iii) Approximation based on the Fukui potential\cite{cardenas2011fukuipotential}\autoref{eq.10}.
 	
 	\begin{equation}
 	\eta(r) = \left (\rho(HOMO) - \frac{\rho(r)}{N} \right) \frac{\mu}{2N} + \frac{\rho(r)}{N}\eta
@@ -184,38 +183,81 @@
 	\label{eq.10}
 	\end{equation}
 	
-	There is a fourth usual working equation for local hardness that is implemented in the software, where the global quantity is spread in the molecular system by the values of the Fukui functions\cite{meneses2004proposal}. In addition to these local reactivity descriptors from CDFT formalism, we also explored the electronic density and the frontier molecular orbitals localization. This data were first calculated by each atom of the whole protein structures and then summed for each of their belonging amino-acid residues. Such type of representations of these data are called as residue condensed in the PRIMoRDiA software, that provide it automatically for its user.  
+	There is a fourth usual working equation for local hardness that is implemented in the software, where the global quantity is spread in the molecular system by the values of the Fukui functions\cite{meneses2004proposal}. In addition to these local reactivity descriptors from CDFT formalism, we also explored the electronic density and the frontier molecular orbitals localization. This data were first calculated by each atom of the whole protein structures and then summed for each of their belonging amino-acid residues. Such type of representations of these data are called as residue condensed in the PRIMoRDiA software, that provide it automatically for its user. 
+	
+	You can find the complete list of the quantum chemical descriptors implemented in PRIMoRDiA in the userguide provide in our git hub repository: \url{https://github.com/igorChem/PRIMoRDiA1.0v}.
 	
 
 	\section{Results}
 	
+	In this section we will only present the results, as the majority are already in the poster and will be discussed in the presentation. 
+	
 	\subsection{QC/MM Molecular Dynamics Sampling}
 	
+	In \autoref{fig:rmsd}, we show the C$\alpha$ RMSD for all Hamiltonians used in the hybrid MD simulations. We can observe that in those 100ps of simulation, after the first 10ps at least, there were not any significant change in the complex structure. In \autoref{fig:md_distances}, we show how the initial combined distances of the two tracked reaction coordinates change over the dynamics, also for all Hamiltonians used in pDynamo3. Now, we can observe that there was critical differences in these analysis when different quantum method is applied. 
+	We select the AM1/MM sampled structures for the subsequent analysis, because its MD results showed more consistent variation of the distances, giving a more certain pair of distances  probable coordinates to be sampled. In a full work, we would do the subsequent analysis for all the Hamiltonians. 
+	
 	\begin{figure}[H]
-		\includegraphics[width=4in]{}
-		\caption{}
-		\label{fig:}			
+		\includegraphics[width=4in]{md_rg}
+		\caption{C-alpha Root Mean Square Deviation depicting the main chain structure fluctuation during the molecular dynamics }
+		\label{fig:rmsd}			
 	\end{figure}
 
 	\begin{figure}[H]
-		\includegraphics[width=4in]{}
-		\caption{}
-		\label{fig:}			
+		\includegraphics[width=4in]{md_distances}
+		\caption{Variation of the initial value of the combined distances for the reaction coordinates tracked.}
+		\label{fig:md_distances}			
 	\end{figure}
 
+	In \autoref{fig:am1_md_results}, we show all the analyzed results for the 100 structures sampled using AM1/MM. We show two different types of biplots that can be used to sample the most probable frame, one based on the values of RG and RMSD and the other based on the values of the reactions coordinates.
+
 	\begin{figure}[H]
-		\includegraphics[width=4in]{}
-		\caption{}
-		\label{fig:}			
+		\includegraphics[width=4in]{am1_md_results}
+		\caption{Summarized results of the AM1/MM molecular dynamics. }
+		\label{fig:am1_md_results}			
 	\end{figure}
 	
 	\subsection{Reactivity Descriptors}
 	
-	\subsection{Statistical Analysis}
+	The descriptors were calculated from the 100 sampled frames using as information the electronic structure resolved in MOPAC using five semiempirical Hamiltonians. PRIMoRDiA already compiles these data by residue type and gives R scripts to perform plots like shown in \autoref{fig:descriptors_var}. In such figure we select only some reactivity descriptors to show if they present sensible variation in those 100os MD runs. We can see that is a significant varaition in the descriptors related with soft-soft interactions, indicating that the distances between the active site atoms can change significantly their nucleophilicity/electrophilicity. 
+	
+	\begin{figure}[H]
+		\includegraphics[width=4in]{descriptors_variation}
+		\caption{Variations of the main descriptors values in the catalytic residues and substrate during the molecular dynamics. These data were calculated using the electronic structure from AM1 energy refinement in MOPAC }
+		\label{fig:descriptors_var}			
+	\end{figure}
+	
+	As the data volume is too big to analyze descriptor by descriptor, for all the frames and prvenient Hamiltonians, we fed these data in a Principal Component Analysis, with the biplots shown in \autoref{fig:descriptors_pca}
+	
+	\begin{figure}[H]
+		\includegraphics[width=4in]{pca_descriptors}
+		\caption{Biplots for PCAs performed for the reactivity descriptors for residues involved in the proposed reaction, from the frames sampled in the AM1/MM hybrid molecular dynamics. For these PCAs, we included all the data from the resolved electronic structure of all Hamiltonian types used in the Energy refinement in MOPAC }
+		\label{fig:descriptors_pca}			
+	\end{figure}
+
+	\begin{figure}[H]
+		\includegraphics[width=4in]{descriptor_sampling}
+		\caption{Kernel density biplot distribution for the values of local hardness for the arginine residue and for the nucleophilicity of glutamic acid, using the electronic structure of energy refinement performed in MOPAC with AM1 Hamiltonian. }
+		\label{fig:descriptors_smp}			
+	\end{figure}
 	
 	\subsection{Structural and Reactivity Analysis}
 	
+	\begin{figure}[H]
+		\includegraphics[width=4in]{sampled_structures}
+		\caption{}
+		\label{fig:descriptors_pc}			
+	\end{figure}
+	
+	\begin{figure}[H]
+		\includegraphics[width=4in]{descriptors_structural}
+		\caption{ }
+		\label{fig:descriptors_struct}			
+	\end{figure}
+	
 	\section{Final Considerations and Perspectives}
+	
+	In this preliminary work we show how is possible combine different software and computational protocols to obtain relevant chemical information of enzymatic system. Following the indication of the results presents, the next steps is to performed this simulations for more long QC/MM molecular dynamics runs, sample the structures and validate the method trough relaxed surface scans. 
 	
 	The upcoming new version of the program, is planned to work directly with the electronic structure obtained with pDynamo software through EasyHybrid 3.0 interface, allowing such theoretical analysis on the fly for hybrid QC/MM simulations.
 	
