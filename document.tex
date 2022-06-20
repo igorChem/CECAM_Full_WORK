@@ -43,7 +43,7 @@
 	\newpage
 	\begin{abstract}		
 		
-		Hybrid simulations are powerful computational chemistry tools to obtain structural and thermodynamics information about enzymatic catalysis reactions. In addition to such relevant applications, these calculations also provide the resolved electronic structure, which is require to estimate the electronic energy in the SCF process. Recently, our group is using such information to obtain several quantum chemical descriptors to profile the steering forces underlying biological processes. In our’s group recent main  publications we presented results about: how semiempirical Hamiltonian could be used to obtain the Fukui functions from polypeptides with modified descriptors, applying them to ligand-binding process; to profile enzymatic catalysis reaction coordinates; to study the main interactions on the active site of main protease SARS-COV-II, comparing with from the SARS-COV-I.	The main goal of this work is to present our software PRIMoRDiA and its workflow with QC/MM hybrid software as the new pDynamo3 and its Graphical interface EasyHybrid3. PRIMoRDiA is an application  to deal efficiently with large outputs of quantum chemical programs and to calculate more than thirty global and local quantum chemical descriptors. 
+		Hybrid simulations are powerful computational chemistry tools to obtain structural and thermodynamics information about enzymatic catalysis reactions. In addition to such relevant applications, these calculations also provide the resolved electronic structure, which is require to estimate the electronic energy in the SCF process. Recently, our group is using such information to obtain several quantum chemical descriptors to profile the steering forces underlying biological processes. In our’s group recent main  publications we presented results about: how semiempirical Hamiltonian could be used to obtain the Fukui functions from polypeptides with modified descriptors, applying them to ligand-binding process; to profile enzymatic catalysis reaction coordinates; to study the main interactions on the active site of main protease SARS-COV-II, comparing with from the SARS-COV-I. The main goal of this work is to present our software PRIMoRDiA and its workflow with QC/MM hybrid software as the new pDynamo3 and its Graphical interface EasyHybrid3. PRIMoRDiA is an application  to deal efficiently with large outputs of quantum chemical programs and to calculate more than thirty global and local quantum chemical descriptors. 
 	\end{abstract}
 	
 	
@@ -55,10 +55,10 @@
 	\section{Introduction}
 		The developing of a computational protocols such the quantum chemical/quantum mechanical hybrid schemes, allowed the study of complex process that occurs in large biomolecular systems. This turned the Hybrid QC/MM methods the state of art and it comes to the energetic and structural studies of enzymatic catalysis. Although, in the great majority of those simulations the resolved electronic structure is trow away, i.e. the wave function information is not utilized even though the computational cost to obtain it already was paid. 
 		
-		PRIMoRDiA software is a new application released to the community prepared to deal with large output files from quantum chemical packages, transforming the electronic structure information in quantum chemical descriptors, global and local, that describes the reactivity propensity and/or provide some electronic properties that can be to used to train correlation models. 
+		PRIMoRDiA software is a new application released to the community prepared to deal with large output files from quantum chemical packages, transforming the electronic structure information in quantum chemical descriptors, global and local, that describes the reactivity propensity and/or provide some electronic properties that can be to used to train correlation models\cite{grillo2020primordia}. 
 		
 		%about the applications of PRIMoRDiA with QC/MM
-		We already used PRIMoRDiA in some studies for profile and characterize reaction paths of enzymatic reactions, from trajectories generated with QC/MM simulations, such as the energy profiling of three enzymatic reactions: \textit{Triosephosphate Isomerase}, \textit{Haloalkane Dehalogenase} and \textit{Adenosine Kinase}. As well the theoretical characterizations of the \textit{Shikimate Dehydrogenase}, depicting the roles of the active site amino-acids.
+		We already used PRIMoRDiA in some studies for profile and characterize reaction paths of enzymatic reactions, from trajectories generated with QC/MM simulations, such as the energy profiling of three enzymatic reactions: \textit{Triosephosphate Isomerase}, \textit{Haloalkane Dehalogenase} and \textit{Adenosine Kinase}\cite{grillo2020elucidating}. As well the theoretical characterizations of the \textit{Shikimate Dehydrogenase}, depicting the roles of the active site amino-acids\cite{grillo2020theoretical}.
 		
 		Thus, we already show that reactivity descriptors, these theoretical quantities calculated with the resolved electronic structure, can aid us to understand the chemistry of such complex reaction.
 		
@@ -227,7 +227,7 @@
 		\label{fig:descriptors_var}			
 	\end{figure}
 	
-	As the data volume is too big to analyze descriptor by descriptor, for all the frames and prvenient Hamiltonians, we fed these data in a Principal Component Analysis, with the biplots shown in \autoref{fig:descriptors_pca}
+	As the data volume is too big to analyze descriptor by descriptor, for all the frames and types of  Hamiltonians, we used these data in a Principal Component Analysis, with the biplots shown in \autoref{fig:descriptors_pca}. The first PCA contained all the data, for the four residues, all frames, Hamiltonians and local descriptors. For this first analysis we could eliminate some redundant descriptors of the analysis, resulting in the second round where the two first PCs keep high explained variance (~75\%), but with less variables. We can observe that the energy refinement Hamiltonians plays a insignificant roles, showing that the descriptor are small influence of the semiempirical type. For the residues, is possible to see how they are very different in reactivity, and how the glutamic acid and arginine can change its reactivity along the different coordinates.	  
 	
 	\begin{figure}[H]
 		\includegraphics[width=4in]{pca_descriptors}
@@ -235,6 +235,10 @@
 		\label{fig:descriptors_pca}			
 	\end{figure}
 
+	 In the third PCA round we remove the quantum chemical descriptors that are not associate directly with the CDFT, MEP and partial charge, and we can see how the variace in the objects associated with the arginine residues becomes only in the first PC. For these analysis we can draw that the arginine reactivity is modulated by the hard-hard interactions and the electrophilicity, which matches with the expected behavior of a resiude that will donate a proton and receive electron density in this process.
+
+	Knowing from the PCA that the most relevant descriptors are the hardness for arginine and the nucleophilicity for the glutamate, we estimate the kernel density for these two variables to sample the structure with the most probable pair of these descriptor values in these residues. In \autoref{fig:descriptors_smp}, we show the graphical representation of this process two a biplot of the kernel density. 
+	 
 	\begin{figure}[H]
 		\includegraphics[width=4in]{descriptor_sampling}
 		\caption{Kernel density biplot distribution for the values of local hardness for the arginine residue and for the nucleophilicity of glutamic acid, using the electronic structure of energy refinement performed in MOPAC with AM1 Hamiltonian. }
@@ -243,15 +247,19 @@
 	
 	\subsection{Structural and Reactivity Analysis}
 	
+	With the distance and reactivity distribution analysis, we sample two frames from the molecular dynamics, as we show in \autoref{fig:descriptors_pc}. We depict the distance between the catalytic residues and the substrates, and for the structure sampled with the descriptors, the water molecule is more close to the substrate as the same time with the glutamic acid residue. In the coordinates sampled with the distance analysis, we observe that the water molecule is more closer to the arginine and more distant of the substrate. 
+	
 	\begin{figure}[H]
 		\includegraphics[width=4in]{sampled_structures}
-		\caption{}
+		\caption{Sampled frames with different methods. A) based on the most probable distances B) }
 		\label{fig:descriptors_pc}			
 	\end{figure}
 	
+	In the \autoref{fig:descriptors_struct}, we depict the netphilicity and local hardness descriptor for the two sampled structures. We see that the main difference is in the nucleophilicity in the adenine nitrogen that will receive the proton from arginine. In the frame sample with the reactivity descriptor, this nucleophilicity appears, but in the coordinates sample based on distance analysis the propensity is inverted. This is the main result, there are other interesting things that will be discussed in the poster section and when a full work with these results will be submitted for publication. 
+	
 	\begin{figure}[H]
 		\includegraphics[width=4in]{descriptors_structural}
-		\caption{ }
+		\caption{ Reactivity maps depicting local hardness and netphilicity for the sampled structures. }
 		\label{fig:descriptors_struct}			
 	\end{figure}
 	
